@@ -4,7 +4,7 @@ const LOCALES = ["ar", "en"] as const;
 const DEFAULT_LOCALE = "ar";
 const PUBLIC_FILE = /\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|json|txt|xml|woff2?|map)$/i;
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
@@ -17,6 +17,12 @@ export function middleware(request: NextRequest) {
 
   const first = pathname.split("/").filter(Boolean)[0];
   const hasLocale = first && (LOCALES as readonly string[]).includes(first);
+
+  if (pathname !== "/" && first && !(LOCALES as readonly string[]).includes(first)) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${DEFAULT_LOCALE}${pathname}`;
+    return NextResponse.redirect(url);
+  }
 
   if (hasLocale) {
     const response = NextResponse.next();

@@ -63,15 +63,12 @@ export default async function ServicesPage({
                     {sDesc}
                   </p>
                   <div className="flex items-center gap-2 mt-auto">
-                    <a
-                      href={`tel:+201110666933`}
-                      className="text-sm font-bold text-gold-600 hover:text-gold-700 flex items-center gap-2"
-                    >
+                    <span className="text-sm font-bold text-gold-600 flex items-center gap-2">
                       {isAr ? "اتصل الآن" : "Call now"}
                       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                    </a>
+                    </span>
                   </div>
                 </Link>
               );
@@ -98,9 +95,9 @@ export default async function ServicesPage({
               >
                 {isAr ? "اتصل الآن" : "Call Now"}
               </a>
-              <a href={`/${locale}/contact`} className="btn btn-outline brand">
+              <Link href={`/${locale}/contact`} className="btn btn-outline brand">
                 {isAr ? "حجز استشارة" : "Book Consultation"}
-              </a>
+              </Link>
             </div>
           </div>
         </div>

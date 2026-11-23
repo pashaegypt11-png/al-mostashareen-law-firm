@@ -1,5 +1,7 @@
 import type { Locale } from "./i18n";
 
+export type { Locale } from "./i18n";
+
 export const firm = {
   name: {
     ar: "المستشارين للمحاماة والاستشارات القانونية",
@@ -15,7 +17,7 @@ export const firm = {
   },
   bio: {
     ar: "المستشار شيماء ذو الفقار، محامية بالنقض والإدارية والدستورية العليا، تتمتع بخبرة تزيد على 30 عامًا في مجال المحاماة، وتقدم من خلال مكتب المستشارين للمحاماة والاستشارات القانونية خدمات التمثيل القانوني والاستشارات المتخصصة للأفراد والشركات، بمهنية وحرص على حماية الحقوق والمصالح وفقًا لأحكام القانون.",
-    en: "Ms. Shaimaa Zulfiqar is a lawyer before the Court of Cassation, the Administrative Courts, and the Supreme Constitutional Court. With more than 30 years of experience in the legal profession, she provides, through AL MOSTASHAREEN LAW FIRM, legal representation and specialized consulting services to individuals and companies — with professionalism and a careful commitment to protecting rights and interests in accordance with the law.",
+    en: "Ms. Shaimaa Zulfiqar is a lawyer before the Court of Cassation, the Administrative Courts, and the Supreme Constitutional Court. With more than 30 years of experience in the legal profession, she provides — through AL MOSTASHAREEN LAW FIRM — legal representation and specialized consulting services to individuals and companies, with professionalism and a careful commitment to protecting rights and interests in accordance with the law.",
   },
   address: {
     ar: "88 شارع النيل الأبيض - ميدان لبنان - المهندسين - الجيزة - مصر.",
@@ -31,12 +33,11 @@ export const firm = {
 
 export interface Service {
   slug: string;
+  icon: string;
   title: Record<Locale, string>;
   description: Record<Locale, string>;
-  icon: string;
 }
 
-/** 12 official services — no guarantees of outcomes, factual descriptions only. */
 export const services: Service[] = [
   {
     slug: "civil-litigation",
@@ -46,7 +47,7 @@ export const services: Service[] = [
       en: "Civil Litigation and Compensation",
     },
     description: {
-      ar: "تمثيل قانوني في المنازعات المدنية ومطالبات التعويض أمام المحاكم المختصة، بدءًا من تقييم الموقف القانوني وحتى استيفاء الحقوق.",
+      ar: "تمثيل قانوني في المنازعات المدنية ومطالبات التعويضات، بدءًا من تقييم الموقف القانوني وحتى استيفاء الحقوق.",
       en: "Legal representation in civil disputes and compensation claims before the competent courts, from assessing the legal position through to the enforcement of established rights.",
     },
   },
@@ -118,7 +119,7 @@ export const services: Service[] = [
       en: "Company Formation and Corporate Legal Consulting",
     },
     description: {
-      ar: "تأسيس الشركات واستكمال إجراءاتها القانونية، وتقديم الاستشارات المتعلقة بالحوكمة والالتزام القانوني للشركات.",
+      ar: "تأسيس الشركات الجديدة، وإكمال إجراءاتها القانونية، وتقديم الاستشارات القانونية للشركات.",
       en: "Company incorporation and completion of legal formalities, together with consulting on corporate governance and legal compliance.",
     },
   },
@@ -130,7 +131,7 @@ export const services: Service[] = [
       en: "Contract Drafting and Legal Review",
     },
     description: {
-      ar: "صياغة ومراجعة العقود والاتفاقيات بمختلف أنواعها، مع بيان المخاطر القانونية وتوضيح الالتزامات والحقوق.",
+      ar: "صياغة ومراجعة العقود والاتفاقيات بمختلف الأنواع، مع بيان المخاطر القانونية وتوضيح الالتزامات والحقوق.",
       en: "Drafting and reviewing contracts and agreements of all kinds, identifying legal risks and clarifying rights and obligations.",
     },
   },
@@ -184,23 +185,28 @@ export const services: Service[] = [
   },
 ];
 
+export function getService(slug: string): Service | undefined {
+  return services.find((s) => s.slug === slug);
+}
+
 export const ui = {
   ar: {
     home: "الصفحة الرئيسية",
-    about: "من نحن",
-    services: "الخدمات",
     contact: "تواصل معنا",
     homeTitle: "الدفاع القانوني الموثوق بخبرة تزيد على 30 عامًا",
     homeSub:
       "نقدم خدمات التمثيل القانوني والاستشارات المتخصصة للأفراد والشركات، بمهنية وحرص على حماية الحقوق والمصالح وفقًا لأحكام القانون.",
-    readMore: "اقرأ المزيد",
+    bioShort:
+      "المستشار شيماء ذو الفقار، محامية بالنقض والإدارية والدستورية العليا، تتمتع بخبرة تزيد على 30 عامًا في مجال المحاماة.",
+    about: "من نحن",
+    services: "الخدمات",
     callNow: "اتصل الآن",
     whatsapp: "واتساب",
-    bookConsultation: "حجز استشارة",
-    whyChoose: "لماذا تختار مكتبنا؟",
+    years: "30+ عامًا",
+    yearsSub: "من الخبرة القانونية",
+    why: "لماذا تختار مكتبنا؟",
     whyTitle: "شراكة قانونية موثوقة",
-    whySub:
-      "مكتب المستشارين للمحاماة والاستشارات القانونية هو شريكك القانوني الموثوق لحماية حقوقك ومصالحك.",
+    whySub: "مكتب المستشارين للمحاماة والاستشارات القانونية هو شريكك القانوني الموثوق لحماية حقوقك ومصالحك.",
     features: [
       {
         title: "خبرة تزيد على 30 عامًا",
@@ -212,37 +218,11 @@ export const ui = {
       },
       {
         title: "استشارات للأفراد والشركات",
-        desc: "خدمات قانونية متكاملة للأفراد والشركات في مختلف المجالات.",
+        desc: "خدمات قانونية متكاملة للأفراد والشركات في مختلف المجالات القانونية.",
       },
     ],
     ctaTitle: "هل تحتاج إلى استشارة قانونية؟",
     ctaSub: "فريقنا القانوني جاهز لمساعدتك في تقييم قضيتك وتقديم الحلول المناسبة.",
-    aboutTitle: "من نحن",
-    bioHeading: "السيرة الذاتية الرسمية",
-    qualifications: "المؤهلات المهنية",
-    qualificationItems: [
-      "محامية أمام محكمة النقض",
-      "محامية أمام المحاكم الإدارية",
-      "محامية أمام المحكمة الدستورية العليا",
-      "أكثر من 30 عامًا من الخبرة القانونية",
-    ],
-    vision: "رؤيتنا",
-    visionText:
-      "أن نكون الخيار الأول للأفراد والشركات الباحثين عن تمثيل قانوني موثوق ومحترف في مصر.",
-    mission: "رسالتنا",
-    missionText:
-      "تقديم خدمات قانونية عالية الجودة مع الحفاظ على سرية تامة، احترام كامل لحقوق العملاء، والتزام صارم بأحكام القانون.",
-    servicesTitle: "خدماتنا القانونية",
-    servicesSub:
-      "نقدم مجموعة شاملة من الخدمات القانونية التي تغطي الجوانب المختلفة للمنازعات القانونية للأفراد والشركات.",
-    requestConsultation: "اطلب استشارة",
-    contactTitle: "تواصل معنا",
-    contactSub: "نسعد بخدمتك. يمكنك التواصل معنا عبر الهاتف أو واتساب أو النموذج التالي.",
-    addressLabel: "العنوان",
-    phonesLabel: "أرقام الهاتف",
-    emailLabel: "البريد الإلكتروني",
-    openInMaps: "افتح الموقع على خرائط جوجل",
-    visitFacebook: "صفحة المكتب على فيسبوك",
     form: {
       heading: "نموذج طلب استشارة",
       name: "الاسم الكامل",
@@ -256,12 +236,11 @@ export const ui = {
       sending: "جارٍ الإرسال...",
       success: "تم إرسال طلبك بنجاح. سنتواصل معك في أقرب وقت.",
       error: "تعذّر إرسال الطلب. يرجى المحاولة مرة أخرى أو التواصل معنا هاتفيًا.",
-      selectService: "اختر نوع الخدمة",
       required: "هذا الحقل مطلوب",
       invalidPhone: "يرجى إدخال رقم هاتف صحيح",
       invalidEmail: "يرجى إدخال بريد إلكتروني صحيح",
       privacy:
-        "بإرسال هذا النموذج فإنك توافق على أن تُستخدم بياناتك للتواصل بشأن طلب الاستشارة فقط.",
+        "بإرسال هذا النموذج، أنت توافق على أن تُستخدم بياناتك للتواصل بشأن طلب الاستشارة فقط.",
     },
     testimonialsTitle: "آراء العملاء",
     testimonialsPlaceholder:
@@ -273,20 +252,21 @@ export const ui = {
   },
   en: {
     home: "Home",
-    about: "About Us",
-    services: "Services",
     contact: "Contact",
     homeTitle: "Trusted legal defense with more than 30 years of experience",
     homeSub:
       "We provide legal representation and specialized consulting services to individuals and companies, with professionalism and a careful commitment to protecting rights and interests in accordance with the law.",
-    readMore: "Read more",
-    callNow: "Call now",
+    bioShort:
+      "Ms. Shaimaa Zulfiqar, Lawyer before the Court of Cassation, Administrative Courts, and Supreme Constitutional Court, with more than 30 years of experience in the legal profession.",
+    about: "About Us",
+    services: "Services",
+    callNow: "Call Now",
     whatsapp: "WhatsApp",
-    bookConsultation: "Book a consultation",
-    whyChoose: "Why choose our firm",
+    years: "30+ Years",
+    yearsSub: "of legal experience",
+    why: "Why choose our firm",
     whyTitle: "A trusted legal partnership",
-    whySub:
-      "AL MOSTASHAREEN LAW FIRM is your trusted legal partner for protecting your rights and interests.",
+    whySub: "AL MOSTASHAREEN LAW FIRM is your trusted legal partner for protecting your rights and interests.",
     features: [
       {
         title: "More than 30 years of experience",
@@ -303,7 +283,6 @@ export const ui = {
     ],
     ctaTitle: "Do you need legal advice?",
     ctaSub: "Our legal team is ready to help you assess your matter and consider appropriate solutions.",
-    aboutTitle: "About Us",
     bioHeading: "Official Biography",
     qualifications: "Professional Qualifications",
     qualificationItems: [
@@ -324,16 +303,11 @@ export const ui = {
     requestConsultation: "Request a consultation",
     contactTitle: "Contact Us",
     contactSub: "We are pleased to assist you. Reach us by phone, WhatsApp, or the form below.",
-    addressLabel: "Address",
-    phonesLabel: "Phone numbers",
-    emailLabel: "Email",
-    openInMaps: "Open location in Google Maps",
-    visitFacebook: "Office page on Facebook",
     form: {
       heading: "Consultation Request Form",
       name: "Full name",
-      phone: "Phone number",
-      email: "Email (optional)",
+      phone: "Phone Number",
+      email: "Email Address (optional)",
       service: "Legal service category",
       preferred: "Preferred contact method",
       preferredOptions: ["Phone", "WhatsApp", "Email"],
@@ -341,9 +315,7 @@ export const ui = {
       submit: "Send request",
       sending: "Sending...",
       success: "Your request has been sent successfully. We will contact you as soon as possible.",
-      error: "We couldn't send your request. Please try again or contact us by phone.",
-      selectService: "Select a service",
-      required: "This field is required",
+      error: "We couldn't send your request. Please try again.",
       invalidPhone: "Please enter a valid phone number",
       invalidEmail: "Please enter a valid email address",
       privacy:

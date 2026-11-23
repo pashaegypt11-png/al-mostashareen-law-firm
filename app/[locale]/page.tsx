@@ -1,8 +1,35 @@
 import Link from "next/link";
+import Image from "next/image";
 
 type Lang = "ar" | "en";
 
-const T: Record<Lang, any> = {
+interface Feature {
+  title: string;
+  desc: string;
+}
+
+interface PageContent {
+  firmName: string;
+  attorney: string;
+  title: string;
+  headline: string;
+  sub: string;
+  bioShort: string;
+  about: string;
+  services: string;
+  callNow: string;
+  whatsapp: string;
+  years: string;
+  yearsSub: string;
+  why: string;
+  whyTitle: string;
+  whySub: string;
+  features: Feature[];
+  ctaTitle: string;
+  ctaSub: string;
+}
+
+const T: Record<Lang, PageContent> = {
   ar: {
     firmName: "المستشارين للمحاماة والاستشارات القانونية",
     attorney: "المستشار شيماء ذو الفقار",
@@ -74,8 +101,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </h1>
               <p className="text-lg md:text-xl text-ink-soft mb-10 max-w-lg prose-legal">{t.sub}</p>
               <div className="flex flex-wrap gap-4">
-                <a href={`/${locale}/about`} className="btn btn-primary">{t.about}</a>
-                <a href={`/${locale}/services`} className="btn btn-outline">{t.services}</a>
+                <Link href={`/${locale}/about`} className="btn btn-primary">{t.about}</Link>
+                <Link href={`/${locale}/services`} className="btn btn-outline">{t.services}</Link>
               </div>
               <div className="mt-10 flex items-center gap-4 text-sm text-ink-soft">
                 <span className="flex items-center gap-1">
@@ -89,15 +116,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <div className="relative">
                 <div className="absolute inset-4 -z-10 bg-gold-300/30 rounded-full blur-lg"></div>
                 <div className="relative flex items-center justify-center p-4 rounded-full border-2 border-brand-800 bg-paper shadow-2xl aspect-square md:aspect-[1] aspect-[1.05]">
-                  <div className="flex items-center justify-center h-full w-full p-2 md:p-4 rounded-full border-4 border-gold-400/40 bg-brand-900/10">
-                    <div className="flex items-center justify-center h-full w-full">
-                      <div className="relative h-full w-full">
-                        <svg className="w-32 h-32 md:w-48 md:h-48 text-gold-500 drop-shadow-lg" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M12 8v4l3 3-9 3M12 16v4l3 3-9 3" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
+                  <Image
+                    src="/logo.png"
+                    alt={t.attorney}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 40vw, 90vw"
+                    className="rounded-full object-contain p-3"
+                  />
                 </div>
               </div>
               <div className="mt-8 text-center">
@@ -115,9 +141,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-5 animate-rise">
               <div className="relative h-[500px] md:h-[600px] rounded-2xl overflow-hidden shadow-xl border border-black/10">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
                   alt={t.attorney}
+                  width={800}
+                  height={600}
                   className="w-full h-full object-cover"
                   loading="eager"
                 />
@@ -130,13 +158,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <div className="bg-gold-100 p-8 rounded-xl border border-gold-200 mb-10">
                 <p className="text-lg text-ink prose-legal">{t.bioShort}</p>
               </div>
-              <a href={`/${locale}/about`} className="inline-flex items-center gap-2 text-brand-800 font-bold hover:text-brand-700">
+              <Link href={`/${locale}/about`} className="inline-flex items-center gap-2 text-brand-800 font-bold hover:text-brand-700">
                 {isAr ? "اقرأ المزيد" : "Read more"}
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M5 12h14" />
                   <path d="m12 5 7 7-7 7" />
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -152,7 +180,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {t.features.map((f: any, i: number) => (
+            {t.features.map((f, i) => (
               <div key={i} className="card card-hover p-8 animate-rise" style={{ animationDelay: `${i * 0.15}s` }}>
                 <h3 className="text-xl font-bold text-brand-900 mb-4">{f.title}</h3>
                 <p className="text-ink-soft leading-relaxed">{f.desc}</p>
@@ -173,7 +201,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <p className="text-white/90 mb-8 max-w-lg">{t.ctaSub}</p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a href={`tel:+201110666933`} className="btn btn-gold">{t.callNow}</a>
-                <a href={`/${locale}/contact`} className="btn btn-outline brand">{isAr ? "حجز استشارة" : "Book Consultation"}</a>
+                <Link href={`/${locale}/contact`} className="btn btn-outline brand">{isAr ? "حجز استشارة" : "Book Consultation"}</Link>
               </div>
             </div>
           </div>

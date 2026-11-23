@@ -1,14 +1,99 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { firm } from "@/lib/content";
 
+const STRINGS = {
+  ar: {
+    title: "تواصل معنا",
+    sub: "نسعد بخدمتك. يمكنك التواصل معنا عبر الهاتف أو واتساب أو النموذج التالي.",
+    addressLabel: "العنوان",
+    phonesLabel: "أرقام الهاتف",
+    emailLabel: "البريد الإلكتروني",
+    formHeading: "نموذج طلب استشارة",
+    formSub: "يرجى تعبئة الحقول التالية لإرسال طلب استشارة قانونية.",
+    name: "الاسم الكامل",
+    phone: "رقم الهاتف",
+    email: "البريد الإلكتروني (اختياري)",
+    service: "نوع الخدمة القانونية",
+    preferred: "طريقة التواصل المفضلة",
+    message: "تفاصيل طلب الاستشارة",
+    submit: "إرسال الطلب",
+    sending: "جارٍ الإرسال...",
+    newRequest: "طلب جديد",
+    selectService: "اختر من القائمة",
+    required: "هذا الحقل مطلوب",
+    invalidPhone: "يرجى إدخال رقم هاتف صحيح",
+    invalidEmail: "يرجى إدخال بريد إلكتروني صحيح",
+    error: "تعذّر إرسال الطلب. يرجى المحاولة مرة أخرى أو التواصل معنا هاتفيًا.",
+    success: "تم إرسال طلبك بنجاح. سنتواصل معك في أقرب وقت.",
+    privacy:
+      "بإرسال هذا النموذج، أنت توافق على أن تُستخدم بياناتك للتواصل بشأن طلب الاستشارة فقط.",
+    preferredOptions: ["هاتف", "واتساب", "بريد إلكتروني"],
+    serviceCategories: [
+      "القضايا المدنية والتعويضات",
+      "القضايا الجنائية",
+      "قضايا الأسرة والأحوال الشخصية",
+      "قضايا مجلس الدولة والقضاء الإداري",
+      "المحكمة الدستورية العليا",
+      "قضايا النقض",
+      "تأسيس الشركات والاستشارات القانونية للشركات",
+      "صياغة العقود ومراجعتها",
+      "القضايا التجارية",
+      "منازعات الضرائب",
+      "تسجيل العقارات والشهر العقاري",
+      "الاستشارات القانونية للأفراد والشركات",
+    ],
+  },
+  en: {
+    title: "Contact Us",
+    sub: "We are pleased to assist you. Reach us by phone, WhatsApp, or the form below.",
+    addressLabel: "Address",
+    phonesLabel: "Phone numbers",
+    emailLabel: "Email",
+    formHeading: "Consultation Request Form",
+    formSub: "Please fill in the fields below to send a legal consultation request.",
+    name: "Full name",
+    phone: "Phone number",
+    email: "Email (optional)",
+    service: "Legal service category",
+    preferred: "Preferred contact method",
+    message: "Consultation details",
+    submit: "Send request",
+    sending: "Sending...",
+    newRequest: "New request",
+    selectService: "Select from the list",
+    required: "This field is required",
+    invalidPhone: "Please enter a valid phone number",
+    invalidEmail: "Please enter a valid email address",
+    error: "We couldn't send your request. Please try again or contact us by phone.",
+    success: "Your request has been sent successfully. We will contact you as soon as possible.",
+    privacy:
+      "By submitting this form, you agree that your data will be used only to contact you regarding this consultation request.",
+    preferredOptions: ["Phone", "WhatsApp", "Email"],
+    serviceCategories: [
+      "Civil Litigation and Compensation",
+      "Criminal Law",
+      "Family Law and Personal Status",
+      "State Council and Administrative Litigation",
+      "Supreme Constitutional Court Matters",
+      "Cassation Appeals",
+      "Company Formation and Corporate Legal Consulting",
+      "Contract Drafting and Legal Review",
+      "Commercial Litigation",
+      "Tax Disputes",
+      "Real Estate Registration and Notary Services",
+      "Legal Consulting for Individuals and Businesses",
+    ],
+  },
+};
+
 export default function ContactPage() {
-  const pathname = usePathname();
-  const isAr = pathname.startsWith("/ar");
-  const t = isAr ? tAr : tEn;
+  const params = useParams();
+  const localeParam = (params?.locale as string) ?? "ar";
+  const isAr = localeParam === "ar";
+  const t = isAr ? STRINGS.ar : STRINGS.en;
 
   const [step, setStep] = useState<"form" | "success">("form");
   const [form, setForm] = useState({
@@ -23,7 +108,9 @@ export default function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (errors[e.target.name]) {
       setErrors({ ...errors, [e.target.name]: "" });
@@ -33,7 +120,7 @@ export default function ContactPage() {
   const validate = (): boolean => {
     const next: Record<string, string> = {};
     if (!form.name.trim()) next.name = t.required;
-    if (!/^(\+201|01)[0-9]{9}$/.test(form.phone)) next.phone = t.invalidPhone;
+    if (!/^(\+201|01)[0-9]{9}$/.test(form.phone.replace(/\s/g, ""))) next.phone = t.invalidPhone;
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = t.invalidEmail;
     if (!form.service) next.service = t.required;
     if (!form.preferred) next.preferred = t.required;
@@ -62,201 +149,206 @@ export default function ContactPage() {
     }
   };
 
-  const preferredOptions = isAr ? tAr.preferredOptions : tEn.preferredOptions;
-  const servicesList = firm.phones; // placeholder for service select options — we use generic categories below
-  const serviceCategories = isAr
-    ? [
-        "القضايا المدنية والتعويضات",
-        "القضايا الجنائية",
-        "قضايا الأسرة والأحوال الشخصية",
-        "قضايا مجلس الدولة والقضاء الإداري",
-        "المحكمة الدستورية العليا",
-        "قضايا النقض",
-        "تأسيس الشركات والاستشارات القانونية للشركات",
-        "صياغة العقود ومراجعتها",
-        "القضايا التجارية",
-        "منازعات الضرائب",
-        "تسجيل العقارات والشهر العقاري",
-        "الاستشارات القانونية للأفراد والشركات",
-      ]
-    : [
-        "Civil Litigation and Compensation",
-        "Criminal Law",
-        "Family Law and Personal Status",
-        "State Council and Administrative Litigation",
-        "Supreme Constitutional Court Matters",
-        "Cassation Appeals",
-        "Company Formation and Corporate Legal Consulting",
-        "Contract Drafting and Legal Review",
-        "Commercial Litigation",
-        "Tax Disputes",
-        "Real Estate Registration and Notary Services",
-        "Legal Consulting for Individuals and Businesses",
-      ];
+  const resetForm = () => {
+    setForm({ name: "", phone: "", email: "", service: "", preferred: "", message: "" });
+    setErrors({});
+    setServerError(null);
+    setStep("form");
+  };
 
   return (
     <main className="flex-1">
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-24">
         <div className="container-xl">
-          <div className="grid lg:grid-cols-12 gap-16">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
             {/* Contact Info */}
-            <div className="lg:col-span-4 animate-rise">
-              <div className="space-y-8">
-                <h1 className="display text-3xl md:text-4xl font-serif font-bold text-brand-900 mb-4">
-                  {t.title}
-                </h1>
-                <p className="text-lg text-ink-soft mb-8 prose-legal">{t.sub}</p>
+            <div className="lg:col-span-4">
+              <h1 className="display text-3xl md:text-4xl font-bold text-brand-900 mb-4">
+                {t.title}
+              </h1>
+              <p className="text-lg text-ink-soft mb-8 prose-legal">{t.sub}</p>
 
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 flex-shrink-0 rounded-full bg-brand-50 flex items-center justify-center border border-brand-200">
-                      <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 01-1.595 1.59l-1.27 1.27a2 2 0 01-2.11.45 12.84 12.84 0 00-2.81.7A2 2 0 011 18.08v3" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-bold text-brand-900 text-sm mb-1">{t.addressLabel}</p>
-                      <p className="text-ink-soft leading-relaxed">{firm.address[isAr ? "ar" : "en"]}</p>
-                    </div>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 shrink-0 rounded-full bg-brand-50 flex items-center justify-center border border-brand-200">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" className="text-brand-700" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 flex-shrink-0 rounded-full bg-brand-50 flex items-center justify-center border border-brand-200">
-                      <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 01-1.595 1.59l-1.27 1.27a2 2 0 01-2.11.45 12.84 12.84 0 00-2.81.7A2 2 0 011 18.08v3" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-bold text-brand-900 text-sm mb-1">{t.phonesLabel}</p>
-                      {firm.phonesIntl.map((p) => (
-                        <a
-                          key={p}
-                          href={`tel:${p}`}
-                          className="block text-brand-800 hover:text-gold-600 text-sm"
-                        >
-                          {p}
-                        </a>
-                      ))}
-                    </div>
+                  <div>
+                    <p className="font-bold text-brand-900 text-sm mb-1">{t.addressLabel}</p>
+                    <p className="text-ink-soft leading-relaxed">{firm.address[isAr ? "ar" : "en"]}</p>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 flex-shrink-0 rounded-full bg-brand-50 flex items-center justify-center border border-brand-200">
-                      <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-bold text-brand-900 text-sm mb-1">{t.emailLabel}</p>
-                      <a
-                        href={`mailto:${firm.email}`}
-                        className="text-brand-800 hover:text-gold-600 text-sm"
-                      >
-                        {firm.email}
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 shrink-0 rounded-full bg-brand-50 flex items-center justify-center border border-brand-200">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" className="text-brand-700" aria-hidden="true">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-bold text-brand-900 text-sm mb-1">{t.phonesLabel}</p>
+                    {firm.phonesIntl.map((p) => (
+                      <a key={p} href={`tel:${p}`} className="block text-brand-800 hover:text-gold-600 text-sm" dir="ltr">
+                        {p}
                       </a>
-                    </div>
+                    ))}
                   </div>
+                </div>
 
-                  <div className="mt-4 flex items-center gap-4 text-sm text-ink-soft">
-                    <span className="flex items-center gap-2">
-                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      01110666933
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      WhatsApp
-                    </span>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 shrink-0 rounded-full bg-brand-50 flex items-center justify-center border border-brand-200">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" className="text-brand-700" aria-hidden="true">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                      <polyline points="22,6 12,13 2,6" />
+                    </svg>
                   </div>
+                  <div>
+                    <p className="font-bold text-brand-900 text-sm mb-1">{t.emailLabel}</p>
+                    <a href={`mailto:${firm.email}`} className="text-brand-800 hover:text-gold-600 text-sm break-all" dir="ltr">
+                      {firm.email}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="pt-4 flex flex-wrap gap-3">
+                  <a
+                    href="https://wa.me/201110666933"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary !py-2.5 !px-5 text-sm"
+                  >
+                    {isAr ? "تواصل واتساب" : "WhatsApp"}
+                  </a>
+                  <a
+                    href="https://maps.app.goo.gl/1LmQuWdBN1fjTe9JA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline !py-2.5 !px-5 text-sm"
+                  >
+                    {isAr ? "الموقع على الخريطة" : "View on map"}
+                  </a>
                 </div>
               </div>
             </div>
 
             {/* Form */}
-            <div className="lg:col-span-8 animate-rise" style={{ animationDelay: "0.2s" }}>
+            <div className="lg:col-span-8">
               {step === "success" ? (
-                <div className="bg-brand-100 p-10 rounded-2xl border border-brand-200 text-center">
-                  <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="3" className="text-brand-700 mx-auto mb-6" viewBox="0 0 24 24">
-                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                <div className="bg-brand-100 p-8 md:p-12 rounded-2xl border border-brand-200 text-center">
+                  <svg width="56" height="56" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-brand-700 mx-auto mb-6" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
                   </svg>
                   <h2 className="text-2xl font-serif font-bold text-brand-900 mb-4">
-                    {t.successTitle}
+                    {isAr ? "تم إرسال الطلب بنجاح" : "Request sent successfully"}
                   </h2>
-                  <p className="text-ink-soft mb-8">{t.successMsg}</p>
-                  <Link href="/contact" className="btn btn-outline brand">
+                  <p className="text-ink-soft mb-8 max-w-md mx-auto">{t.success}</p>
+                  <button type="button" onClick={resetForm} className="btn btn-outline">
                     {t.newRequest}
-                  </Link>
+                  </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="bg-paper p-8 md:p-12 rounded-2xl border border-black/10 shadow-lg space-y-6">
-                  <h2 className="text-2xl font-serif font-bold text-brand-900 mb-2">{t.formHeading}</h2>
-                  <p className="text-ink-soft mb-6">{t.formSub}</p>
+                <form
+                  onSubmit={handleSubmit}
+                  className="bg-paper p-6 md:p-10 rounded-2xl border border-black/10 shadow-lg space-y-5"
+                  noValidate
+                >
+                  <div>
+                    <h2 className="text-2xl font-serif font-bold text-brand-900 mb-1">
+                      {t.formHeading}
+                    </h2>
+                    <p className="text-ink-soft text-sm">{t.formSub}</p>
+                  </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <label className="label">{t.name} <span className="text-gold-600">*</span></label>
+                      <label htmlFor="name" className="label">
+                        {t.name} <span className="text-gold-600">*</span>
+                      </label>
                       <input
+                        id="name"
                         name="name"
                         type="text"
                         value={form.name}
                         onChange={handleChange}
                         className={`input ${errors.name ? "border-red-500" : ""}`}
-                        placeholder="Shaimaa Zulfiqar"
+                        aria-invalid={!!errors.name}
+                        disabled={submitting}
                       />
                       {errors.name && <span className="text-xs text-red-600 mt-1 block">{errors.name}</span>}
                     </div>
                     <div>
-                      <label className="label">{t.phone} <span className="text-gold-600">*</span></label>
+                      <label htmlFor="phone" className="label">
+                        {t.phone} <span className="text-gold-600">*</span>
+                      </label>
                       <input
+                        id="phone"
                         name="phone"
                         type="tel"
+                        inputMode="tel"
                         value={form.phone}
                         onChange={handleChange}
                         className={`input ${errors.phone ? "border-red-500" : ""}`}
-                        placeholder="01110666933"
+                        aria-invalid={!!errors.phone}
+                        placeholder="01xxxxxxxxx"
+                        dir="ltr"
+                        disabled={submitting}
                       />
                       {errors.phone && <span className="text-xs text-red-600 mt-1 block">{errors.phone}</span>}
                     </div>
                     <div>
-                      <label className="label">{t.email}</label>
+                      <label htmlFor="email" className="label">{t.email}</label>
                       <input
+                        id="email"
                         name="email"
                         type="email"
                         value={form.email}
                         onChange={handleChange}
                         className={`input ${errors.email ? "border-red-500" : ""}`}
-                        placeholder="example@email.com"
+                        aria-invalid={!!errors.email}
+                        dir="ltr"
+                        disabled={submitting}
                       />
                       {errors.email && <span className="text-xs text-red-600 mt-1 block">{errors.email}</span>}
                     </div>
                     <div>
-                      <label className="label">{t.service} <span className="text-gold-600">*</span></label>
+                      <label htmlFor="service" className="label">
+                        {t.service} <span className="text-gold-600">*</span>
+                      </label>
                       <select
+                        id="service"
                         name="service"
                         value={form.service}
                         onChange={handleChange}
-                        className="input"
+                        className={`input ${errors.service ? "border-red-500" : ""}`}
+                        aria-invalid={!!errors.service}
+                        disabled={submitting}
                       >
                         <option value="">{t.selectService}</option>
-                        {serviceCategories.map((s) => (
+                        {t.serviceCategories.map((s) => (
                           <option key={s} value={s}>{s}</option>
                         ))}
                       </select>
                       {errors.service && <span className="text-xs text-red-600 mt-1 block">{errors.service}</span>}
                     </div>
-                    <div>
-                      <label className="label">{t.preferred} <span className="text-gold-600">*</span></label>
+                    <div className="md:col-span-2">
+                      <label htmlFor="preferred" className="label">
+                        {t.preferred} <span className="text-gold-600">*</span>
+                      </label>
                       <select
+                        id="preferred"
                         name="preferred"
                         value={form.preferred}
                         onChange={handleChange}
-                        className="input"
+                        className={`input ${errors.preferred ? "border-red-500" : ""}`}
+                        aria-invalid={!!errors.preferred}
+                        disabled={submitting}
                       >
                         <option value="">{t.selectService}</option>
-                        {preferredOptions.map((o) => (
+                        {t.preferredOptions.map((o) => (
                           <option key={o} value={o}>{o}</option>
                         ))}
                       </select>
@@ -265,22 +357,22 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="label">{t.message}</label>
+                    <label htmlFor="message" className="label">{t.message}</label>
                     <textarea
+                      id="message"
                       name="message"
                       value={form.message}
                       onChange={handleChange}
                       className="textarea"
                       rows={5}
+                      disabled={submitting}
                     />
                   </div>
 
-                  <p className="text-xs text-ink-soft">
-                    {t.privacy}
-                  </p>
+                  <p className="text-xs text-ink-soft leading-relaxed">{t.privacy}</p>
 
                   {serverError && (
-                    <div className="p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                    <div role="alert" className="p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
                       {serverError}
                     </div>
                   )}
@@ -290,7 +382,7 @@ export default function ContactPage() {
                     disabled={submitting}
                     className="btn btn-gold w-full md:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {submitting ? t.sending : t.submitBtn}
+                    {submitting ? t.sending : t.submit}
                   </button>
                 </form>
               )}
@@ -301,59 +393,3 @@ export default function ContactPage() {
     </main>
   );
 }
-
-const tAr = {
-  title: "تواصل معنا",
-  sub: "نسعد بخدمتك. يمكنك التواصل معنا عبر الهاتف أو واتساب أو النموذج التالي.",
-  addressLabel: "العنوان",
-  phonesLabel: "أرقام الهاتف",
-  emailLabel: "البريد الإلكتروني",
-  successTitle: "تم إرسال الطلب بنجاح",
-  successMsg: "تم استلام طلب الاستشارة الخاص بك. سنتواصل معك في أقرب وقت ممكن.",
-  newRequest: "طلب جديد",
-  formHeading: "نموذج طلب استشارة",
-  formSub: "يرجى تعبئة الحقول التالية لإرسال طلب استشارة قانونية.",
-  name: "الاسم الكامل",
-  phone: "رقم الهاتف",
-  email: "البريد الإلكتروني (اختياري)",
-  service: "نوع الخدمة القانونية",
-  preferred: "طريقة التواصل المفضلة",
-  preferredOptions: ["هاتف", "واتساب", "بريد إلكتروني"],
-  message: "تفاصيل طلب الاستشارة",
-  submitBtn: "إرسال الطلب",
-  sending: "جارٍ الإرسال...",
-  required: "هذا الحقل مطلوب",
-  invalidPhone: "يرجى إدخال رقم هاتف صحيح",
-  invalidEmail: "يرجى إدخال بريد إلكتروني صحيح",
-  selectService: "اختر نوع الخدمة",
-  error: "تعذّر إرسال الطلب. يرجى المحاولة مرة أخرى.",
-  privacy: "بإرسال هذا النموذج، أنت توافق على استخدام بياناتك للتواصل بشأن طلب الاستشارة فقط.",
-};
-
-const tEn = {
-  title: "Contact Us",
-  sub: "We are pleased to assist you. Reach us by phone, WhatsApp, or the form below.",
-  addressLabel: "Address",
-  phonesLabel: "Phone numbers",
-  emailLabel: "Email",
-  successTitle: "Request Sent Successfully",
-  successMsg: "Your consultation request has been received. We will contact you as soon as possible.",
-  newRequest: "New Request",
-  formHeading: "Consultation Request Form",
-  formSub: "Please fill in the fields below to send a legal consultation request.",
-  name: "Full Name",
-  phone: "Phone Number",
-  email: "Email Address (optional)",
-  service: "Legal Service Category",
-  preferred: "Preferred Contact Method",
-  preferredOptions: ["Phone", "WhatsApp", "Email"],
-  message: "Consultation Details",
-  submitBtn: "Send Request",
-  sending: "Sending...",
-  required: "This field is required",
-  invalidPhone: "Please enter a valid phone number",
-  invalidEmail: "Please enter a valid email address",
-  selectService: "Select a service",
-  error: "We couldn't send your request. Please try again.",
-  privacy: "By submitting this form, you agree that your data will be used only to contact you regarding this consultation request.",
-};
