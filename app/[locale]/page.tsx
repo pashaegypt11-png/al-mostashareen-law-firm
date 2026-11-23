@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { firm } from "@/lib/firm";
+import { verifiedStatistics } from "@/lib/site-statistics";
 
 type Lang = "ar" | "en";
 
@@ -27,6 +29,9 @@ interface PageContent {
   features: Feature[];
   ctaTitle: string;
   ctaSub: string;
+  cassationCard: string;
+  constitutionalCard: string;
+  statsLabel: string;
 }
 
 const T: Record<Lang, PageContent> = {
@@ -55,6 +60,9 @@ const T: Record<Lang, PageContent> = {
     ],
     ctaTitle: "هل تحتاج إلى استشارة قانونية؟",
     ctaSub: "فريقنا القانوني جاهز لمساعدتك في تقييم قضيتك وتقديم الحلول المناسبة.",
+    cassationCard: "محامية بالنقض",
+    constitutionalCard: "المحكمة الدستورية العليا",
+    statsLabel: "إحصائية موثقة",
   },
   en: {
     firmName: "AL MOSTASHAREEN LAW FIRM",
@@ -79,6 +87,9 @@ const T: Record<Lang, PageContent> = {
     ],
     ctaTitle: "Do you need legal advice?",
     ctaSub: "Our legal team is ready to help you assess your matter and consider appropriate solutions.",
+    cassationCard: "Court of Cassation",
+    constitutionalCard: "Supreme Constitutional Court",
+    statsLabel: "Verified statistic",
   },
 };
 
@@ -87,20 +98,37 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const isAr = locale === "ar";
   const t = T[isAr ? "ar" : "en"];
 
+  const headline = isAr
+    ? t.headline.split(/(30 عامًا)/)
+    : t.headline.split(/(30 years)/);
+
   return (
     <main className="flex-1">
       {/* Hero */}
       <section className="relative pt-16 md:pt-24 pb-20 overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-brand-50/40 rounded-b-[60%]"></div>
+        <div className="hero-pattern absolute inset-0 -z-10 opacity-80" aria-hidden="true"></div>
         <div className="container-xl">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 animate-rise">
               <span className="eyebrow block mb-4">{t.firmName}</span>
               <h1 className="display text-4xl md:text-5xl lg:text-6xl text-brand-900 mb-6 leading-tight">
-                {t.headline}
+                {headline.map((part, index) =>
+                  (isAr ? part === "30 عامًا" : part === "30 years") ? (
+                    <span key={index} className="text-gold-700">{part}</span>
+                  ) : (
+                    <span key={index}>{part}</span>
+                  )
+                )}
               </h1>
               <p className="text-lg md:text-xl text-ink-soft mb-10 max-w-lg prose-legal">{t.sub}</p>
               <div className="flex flex-wrap gap-4">
+                <a href={`tel:${firm.phonesIntl[0]}`} className="btn btn-gold">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                  {t.callNow}
+                </a>
                 <Link href={`/${locale}/about`} className="btn btn-primary">{t.about}</Link>
                 <Link href={`/${locale}/services`} className="btn btn-outline">{t.services}</Link>
               </div>
@@ -115,7 +143,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <div className="lg:col-span-5 animate-rise" style={{ animationDelay: "0.2s" }}>
               <div className="relative">
                 <div className="absolute inset-4 -z-10 bg-gold-300/30 rounded-full blur-lg"></div>
-                <div className="relative flex items-center justify-center p-4 rounded-full border-2 border-brand-800 bg-paper shadow-2xl aspect-square md:aspect-[1] aspect-[1.05]">
+                <div className="relative flex items-center justify-center p-4 rounded-full border-2 border-gold-500 bg-paper shadow-2xl aspect-square md:aspect-[1] aspect-[1.05]">
                   <Image
                     src="/logo.png"
                     alt={t.attorney}
@@ -124,6 +152,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                     sizes="(min-width: 1024px) 40vw, 90vw"
                     className="rounded-full object-contain p-3"
                   />
+                  <div className="float-card absolute -top-3 start-0 max-w-[150px] rounded-xl border border-gold-200 bg-paper px-3 py-2 shadow-lg">
+                    <p className="text-[11px] font-bold leading-tight text-brand-900">{t.cassationCard}</p>
+                  </div>
+                  <div className="float-card absolute top-[42%] end-[-8px] max-w-[155px] rounded-xl border border-gold-200 bg-paper px-3 py-2 shadow-lg" style={{ animationDelay: "0.3s" }}>
+                    <p className="text-[11px] font-bold leading-tight text-brand-900">{t.constitutionalCard}</p>
+                  </div>
+                  <div className="float-card absolute -bottom-3 start-[8%] max-w-[150px] rounded-xl border border-gold-200 bg-paper px-3 py-2 shadow-lg" style={{ animationDelay: "0.5s" }}>
+                    <p className="text-[11px] font-bold leading-tight text-brand-900">{t.years}</p>
+                  </div>
                 </div>
               </div>
               <div className="mt-8 text-center">
@@ -131,6 +168,20 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <p className="mt-2 text-sm text-ink-soft font-serif italic">{t.yearsSub}</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Verified statistics strip */}
+      <section className="border-y border-gold-200/70 bg-paper" aria-label={t.statsLabel}>
+        <div className="container-xl py-6 md:py-8">
+          <div className="mx-auto flex max-w-md items-center justify-center gap-4 text-center">
+            <span className="h-10 w-px bg-gold-300" aria-hidden="true"></span>
+            <div>
+          <p className="font-serif text-3xl font-bold text-gold-700">{verifiedStatistics.experience.value}</p>
+          <p className="text-sm font-semibold text-brand-900">{verifiedStatistics.experience.label[isAr ? "ar" : "en"]}</p>
+            </div>
+            <span className="h-10 w-px bg-gold-300" aria-hidden="true"></span>
           </div>
         </div>
       </section>

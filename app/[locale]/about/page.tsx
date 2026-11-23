@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { AttorneyPortrait } from "@/app/components/AttorneyPortrait";
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -16,17 +16,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div className="grid lg:grid-cols-12 gap-16">
             {/* Attorney Portrait */}
             <div className="lg:col-span-5">
-              <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl border border-black/10">
-                <Image
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
-                  alt="Shaimaa Zulfiqar Attorney Portrait"
-                  width={800}
-                  height={600}
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                />
-                <div className="absolute inset-0 bg-black/20"></div>
-              </div>
+              <AttorneyPortrait
+                name={isAr ? "المستشار شيماء ذو الفقار" : "Shaimaa Zulfiqar"}
+                isArabic={isAr}
+              />
               <div className="mt-8 text-center">
                 <span className="inline-block bg-gold-100 text-gold-800 px-4 py-1 rounded-full text-sm font-bold">
                   30+ {isAr ? "عامًا" : "years"}
@@ -52,23 +45,23 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 <h2 className="text-2xl font-serif font-bold text-brand-900 mb-6">
                   {isAr ? "المؤهلات المهنية" : "Professional Qualifications"}
                 </h2>
-                <ul className="space-y-4 text-lg text-ink-soft">
+                <ol className="relative border-s-2 border-gold-300 ps-7 space-y-6" role="list">
                   {isAr ? (
                       <>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>محامية أمام محكمة النقض</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>محامية أمام المحاكم الإدارية</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>محامية أمام المحكمة الدستورية العليا</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>أكثر من 30 عامًا من الخبرة القانونية</span></li>
+                        <li className="relative text-lg text-ink-soft"><span className="absolute -start-[38px] top-1 h-4 w-4 rounded-full border-2 border-gold-500 bg-paper shadow-sm" aria-hidden="true"></span><span>محامية أمام محكمة النقض</span></li>
+                        <li className="relative text-lg text-ink-soft"><span className="absolute -start-[38px] top-1 h-4 w-4 rounded-full border-2 border-gold-500 bg-paper shadow-sm" aria-hidden="true"></span><span>محامية أمام المحاكم الإدارية</span></li>
+                        <li className="relative text-lg text-ink-soft"><span className="absolute -start-[38px] top-1 h-4 w-4 rounded-full border-2 border-gold-500 bg-paper shadow-sm" aria-hidden="true"></span><span>محامية أمام المحكمة الدستورية العليا</span></li>
+                        <li className="relative text-lg text-ink-soft"><span className="absolute -start-[38px] top-1 h-4 w-4 rounded-full border-2 border-gold-500 bg-paper shadow-sm" aria-hidden="true"></span><span>أكثر من 30 عامًا من الخبرة القانونية</span></li>
                       </>
                     ) : (
                         <>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>Lawyer before the Court of Cassation</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>Lawyer before the Administrative Courts</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>Lawyer before the Supreme Constitutional Court</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>More than 30 years of legal experience</span></li>
+                        <li className="relative text-lg text-ink-soft"><span className="absolute -start-[38px] top-1 h-4 w-4 rounded-full border-2 border-gold-500 bg-paper shadow-sm" aria-hidden="true"></span><span>Lawyer before the Court of Cassation</span></li>
+                        <li className="relative text-lg text-ink-soft"><span className="absolute -start-[38px] top-1 h-4 w-4 rounded-full border-2 border-gold-500 bg-paper shadow-sm" aria-hidden="true"></span><span>Lawyer before the Administrative Courts</span></li>
+                        <li className="relative text-lg text-ink-soft"><span className="absolute -start-[38px] top-1 h-4 w-4 rounded-full border-2 border-gold-500 bg-paper shadow-sm" aria-hidden="true"></span><span>Lawyer before the Supreme Constitutional Court</span></li>
+                        <li className="relative text-lg text-ink-soft"><span className="absolute -start-[38px] top-1 h-4 w-4 rounded-full border-2 border-gold-500 bg-paper shadow-sm" aria-hidden="true"></span><span>More than 30 years of legal experience</span></li>
                       </>
                     )}
-                </ul>
+                </ol>
               </div>
               <div className="mt-16 text-center">
                 <div className="bg-gold-100 p-8 rounded-xl border border-gold-200 text-center md:text-left">

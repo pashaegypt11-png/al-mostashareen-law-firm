@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Amiri } from "next/font/google";
+import { Cairo, Playfair_Display, Amiri } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const cairo = Cairo({ subsets: ["arabic", "latin"], variable: "--font-cairo", display: "swap" });
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
@@ -34,7 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={`${inter.variable} ${playfair.variable} ${amiri.variable}`}>
+    <html
+      data-scroll-behavior="smooth"
+      lang="ar"
+      className={`${cairo.variable} ${playfair.variable} ${amiri.variable}`}
+    >
       <body className="font-sans antialiased">
         {children}
       </body>

@@ -245,6 +245,7 @@ export const ui = {
     testimonialsTitle: "آراء العملاء",
     testimonialsPlaceholder:
       "هذا القسم مخصص لعرض آراء العملاء الحقيقية فقط. سيُضاف المحتوى بعد الحصول على الموافقات اللازمة.",
+    allSuccessCategories: "جميع القضايا",
     footerRights: "جميع الحقوق محفوظة",
     langSwitch: "English",
     quickLinks: "روابط سريعة",
@@ -324,6 +325,7 @@ export const ui = {
     testimonialsTitle: "Client Testimonials",
     testimonialsPlaceholder:
       "This section is reserved for genuine client testimonials only. Content will be added once the necessary approvals are obtained.",
+    allSuccessCategories: "All Cases",
     footerRights: "All rights reserved",
     langSwitch: "العربية",
     quickLinks: "Quick links",
