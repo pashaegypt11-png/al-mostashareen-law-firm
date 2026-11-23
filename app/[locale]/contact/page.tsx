@@ -7,6 +7,8 @@ import { firm } from "@/lib/content";
 const STRINGS = {
   ar: {
     title: "تواصل معنا",
+    bannerTitle: "قضيتك في أيدٍ أمينة",
+    bannerSub: "تواصل مع مكتبنا للحصول على تقييم قانوني مهني وسرية تامة.",
     sub: "نسعد بخدمتك. يمكنك التواصل معنا عبر الهاتف أو واتساب أو النموذج التالي.",
     addressLabel: "العنوان",
     phonesLabel: "أرقام الهاتف",
@@ -48,6 +50,8 @@ const STRINGS = {
   },
   en: {
     title: "Contact Us",
+    bannerTitle: "Your Case Is in Safe Hands",
+    bannerSub: "Contact our firm for a professional legal assessment with complete confidentiality.",
     sub: "We are pleased to assist you. Reach us by phone, WhatsApp, or the form below.",
     addressLabel: "Address",
     phonesLabel: "Phone numbers",
@@ -140,10 +144,13 @@ export default function ContactPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, locale: isAr ? "ar" : "en" }),
       });
-      if (!res.ok) throw new Error(t.error);
+      const result = await res.json().catch(() => null);
+      if (!res.ok || !result?.success) {
+        throw new Error(typeof result?.error === "string" ? result.error : t.error);
+      }
       setStep("success");
-    } catch {
-      setServerError(t.error);
+    } catch (error) {
+      setServerError(error instanceof Error && error.message ? error.message : t.error);
     } finally {
       setSubmitting(false);
     }
@@ -158,6 +165,30 @@ export default function ContactPage() {
 
   return (
     <main className="flex-1">
+      <section className="relative overflow-hidden bg-brand-900 py-10 md:py-14 text-cream">
+        <div className="hero-pattern absolute inset-0 opacity-30" aria-hidden="true"></div>
+        <div className="container-xl relative flex flex-col items-center justify-between gap-6 md:flex-row">
+          <div className="text-center md:text-start">
+            <h1 className="display text-3xl md:text-4xl font-bold text-gold-300">
+              {t.bannerTitle}
+            </h1>
+            <p className="mt-2 text-cream/85">{t.bannerSub}</p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <a href="tel:+201110666933" className="btn btn-gold">
+              {isAr ? "اتصل الآن" : "Call Now"}
+            </a>
+            <a
+              href="https://wa.me/201110666933"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost-light"
+            >
+              واتساب
+            </a>
+          </div>
+        </div>
+      </section>
       <section className="py-16 md:py-24">
         <div className="container-xl">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
@@ -237,7 +268,7 @@ export default function ContactPage() {
             {/* Form */}
             <div className="lg:col-span-8">
               {step === "success" ? (
-                <div className="bg-brand-100 p-8 md:p-12 rounded-2xl border border-brand-200 text-center">
+                <div className="animate-rise bg-brand-100 p-8 md:p-12 rounded-2xl border border-brand-200 text-center" role="status" aria-live="polite">
                   <svg width="56" height="56" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-brand-700 mx-auto mb-6" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
@@ -253,8 +284,9 @@ export default function ContactPage() {
               ) : (
                 <form
                   onSubmit={handleSubmit}
-                  className="bg-paper p-6 md:p-10 rounded-2xl border border-black/10 shadow-lg space-y-5"
+                  className="bg-paper p-6 md:p-10 rounded-2xl border border-gold-200 shadow-lg space-y-5"
                   noValidate
+                  aria-busy={submitting}
                 >
                   <div>
                     <h2 className="text-2xl font-serif font-bold text-brand-900 mb-1">

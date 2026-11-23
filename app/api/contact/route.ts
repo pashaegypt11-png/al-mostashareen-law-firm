@@ -7,6 +7,29 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, phone, email, service, preferred, message, locale } = body;
 
+    if (
+      typeof name !== "string" ||
+      typeof phone !== "string" ||
+      typeof service !== "string"
+    ) {
+      return NextResponse.json(
+        { error: locale === "ar" ? "بيانات الطلب غير صالحة" : "Invalid request data" },
+        { status: 400 }
+      );
+    }
+
+    if (
+      name.trim().length > 100 ||
+      phone.trim().length > 30 ||
+      (typeof email === "string" && email.length > 254) ||
+      (typeof message === "string" && message.length > 3000)
+    ) {
+      return NextResponse.json(
+        { error: locale === "ar" ? "البيانات المدخلة تتجاوز الحد المسموح" : "Input exceeds the allowed length" },
+        { status: 400 }
+      );
+    }
+
     // التحقق من الحقول المطلوبة
     if (!name || !phone || !service) {
       return NextResponse.json(
