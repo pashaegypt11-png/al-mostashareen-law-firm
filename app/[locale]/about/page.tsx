@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { StatsSection } from "@/app/components/StatsSection";
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -27,14 +28,6 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 />
                 <div className="absolute inset-0 bg-black/20"></div>
               </div>
-              <div className="mt-8 text-center">
-                <span className="inline-block bg-gold-100 text-gold-800 px-4 py-1 rounded-full text-sm font-bold">
-                  30+ {isAr ? "عامًا" : "years"}
-                </span>
-                <p className="mt-2 text-sm text-ink-soft font-serif italic">
-                  {isAr ? "من الخبرة القانونية" : "of legal experience"}
-                </p>
-              </div>
             </div>
 
             <div className="lg:col-span-7">
@@ -47,6 +40,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                     : "Ms. Shaimaa Zulfiqar is a lawyer before the Court of Cassation, the Administrative Courts, and the Supreme Constitutional Court. With more than 30 years of experience in the legal profession, she provides — through AL MOSTASHAREEN LAW FIRM — legal representation and specialized consulting services to individuals and companies, with professionalism and a careful commitment to protecting rights and interests in accordance with the law."}
                 </p>
               </div>
+
+              <StatsSection
+                locale={isAr ? "ar" : "en"}
+              />
 
               <div className="mb-12">
                 <h2 className="text-2xl font-serif font-bold text-brand-900 mb-6">

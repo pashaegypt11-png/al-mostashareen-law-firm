@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { StatsSection } from "@/app/components/StatsSection";
 
 type Lang = "ar" | "en";
 
@@ -126,14 +127,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   />
                 </div>
               </div>
-              <div className="mt-8 text-center">
-                <span className="inline-block bg-brand-100 text-brand-800 px-4 py-1 rounded-full text-sm font-bold">{t.years}</span>
-                <p className="mt-2 text-sm text-ink-soft font-serif italic">{t.yearsSub}</p>
-              </div>
             </div>
           </div>
         </div>
       </section>
+
+      <StatsSection
+        locale={isAr ? "ar" : "en"}
+      />
 
       {/* Attorney Intro */}
       <section className="section py-16 md:py-24 bg-paper">
