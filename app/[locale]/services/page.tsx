@@ -75,7 +75,7 @@ export default async function ServicesPage({
 
   return (
     <main className="flex-1">
-      <section className="py-20 md:py-28">
+      <section className="py-12 md:py-28">
         <div className="container-xl">
           <div className="text-center mb-16">
             <span className="eyebrow block mb-2">{t.services}</span>

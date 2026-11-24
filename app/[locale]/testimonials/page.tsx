@@ -4,7 +4,7 @@ export default async function TestimonialsPage({ params }: { params: Promise<{ l
 
   return (
     <main className="flex-1">
-      <section className="py-20 md:py-28">
+      <section className="py-12 md:py-28">
         <div className="container-xl">
           <div className="text-center mb-16">
             <span className="block text-sm font-semibold text-gold-600 mb-2 uppercase tracking-wider">

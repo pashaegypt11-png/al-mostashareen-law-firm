@@ -27,7 +27,7 @@ export default async function ServicePage({
   const faqItems = faqs[slug]?.[isAr ? "ar" : "en"] ?? [];
 
   return (
-    <main className="py-16 md:py-24">
+    <main className="py-10 sm:py-16 md:py-24">
       <div className="container-xl max-w-4xl">
         <Link
           href={`/${isAr ? "ar" : "en"}/services`}
@@ -35,7 +35,7 @@ export default async function ServicePage({
         >
           ← {isAr ? "جميع الخدمات" : "All services"}
         </Link>
-        <section className="bg-paper border border-black/10 rounded-2xl p-8 md:p-12 shadow-lg">
+        <section className="bg-paper border border-black/10 rounded-2xl p-5 sm:p-8 md:p-12 shadow-lg">
           <span className="eyebrow block mb-3">
             {isAr ? "خدماتنا القانونية" : "Our Legal Services"}
           </span>

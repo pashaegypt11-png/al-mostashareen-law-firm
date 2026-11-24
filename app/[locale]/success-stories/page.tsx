@@ -44,7 +44,7 @@ export default async function SuccessStoriesPage({ params }: { params: Promise<{
 
   return (
     <main className="flex-1">
-      <section className="py-20 md:py-28">
+      <section className="py-12 md:py-28">
         <div className="container-xl">
           <div className="text-center mb-16">
             <span className="block text-sm font-semibold text-gold-600 mb-2 uppercase tracking-wider">
@@ -60,7 +60,7 @@ export default async function SuccessStoriesPage({ params }: { params: Promise<{
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {t.stories.map((story, i) => (
               <div key={i} className="bg-paper p-8 rounded-lg border border-brand-100 shadow-sm animate-rise">
                 <div className="flex items-center justify-between">

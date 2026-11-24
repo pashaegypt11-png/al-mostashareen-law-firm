@@ -165,7 +165,7 @@ export default function ContactPage() {
     <main className="flex-1">
       <section className="py-16 md:py-24">
         <div className="container-xl">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             {/* Contact Info */}
             <div className="lg:col-span-4">
               <h1 className="display text-3xl md:text-4xl font-bold text-brand-900 mb-4">
@@ -268,7 +268,7 @@ export default function ContactPage() {
               ) : (
                 <form
                   onSubmit={handleSubmit}
-                  className="bg-paper p-6 md:p-10 rounded-2xl border border-black/10 shadow-lg space-y-5"
+                  className="bg-paper p-5 sm:p-6 md:p-10 rounded-2xl border border-black/10 shadow-lg space-y-5"
                   noValidate
                 >
                   <div>
@@ -287,6 +287,7 @@ export default function ContactPage() {
                         id="name"
                         name="name"
                         type="text"
+                        autoComplete="name"
                         value={form.name}
                         onChange={handleChange}
                         className={`input ${errors.name ? "border-red-500" : ""}`}
@@ -304,6 +305,7 @@ export default function ContactPage() {
                         name="phone"
                         type="tel"
                         inputMode="tel"
+                        autoComplete="tel"
                         value={form.phone}
                         onChange={handleChange}
                         className={`input ${errors.phone ? "border-red-500" : ""}`}
@@ -320,6 +322,8 @@ export default function ContactPage() {
                         id="email"
                         name="email"
                         type="email"
+                        inputMode="email"
+                        autoComplete="email"
                         value={form.email}
                         onChange={handleChange}
                         className={`input ${errors.email ? "border-red-500" : ""}`}

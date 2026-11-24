@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import FloatingActions from "@/app/components/FloatingActions";
+import MobileMenu from "@/app/components/MobileMenu";
 
 interface Props {
   children: React.ReactNode;
@@ -60,13 +61,14 @@ export default async function LocaleLayout({ children, params }: Props) {
           <div className="flex items-center gap-3">
             <Link
               href={isAr ? "/en" : "/ar"}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-800 text-brand-900 text-sm font-semibold hover:bg-brand-900 hover:text-cream transition-colors"
+              className="hidden items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-800 text-brand-900 text-sm font-semibold hover:bg-brand-900 hover:text-cream transition-colors sm:flex"
             >
               {isAr ? "English" : "العربية"}
             </Link>
             <Link href={`/${locale}/contact`} className="hidden sm:inline-flex btn btn-primary !py-2.5 !px-5 text-sm">
               {nav.book}
             </Link>
+            <MobileMenu locale={isAr ? "ar" : "en"} />
           </div>
         </div>
       </header>

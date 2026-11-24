@@ -30,7 +30,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           </h1>
           <div className="mx-auto mt-4 h-px w-12 bg-gold-500"></div>
 
-          <div className="mt-10 grid items-stretch gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="mt-8 grid items-stretch gap-6 sm:gap-8 lg:mt-10 lg:grid-cols-2 lg:gap-12">
             <div>
               <div className="relative aspect-[4/5] max-h-[600px] overflow-hidden rounded-2xl border border-black/10 shadow-xl">
                 <Image

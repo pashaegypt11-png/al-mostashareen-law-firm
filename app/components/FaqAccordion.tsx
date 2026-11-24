@@ -43,7 +43,7 @@ export default function FaqAccordion({
               aria-expanded={open}
               aria-controls={answerId}
               onClick={() => setOpenIndex(open ? null : index)}
-              className="flex min-h-11 w-full items-center gap-4 px-5 py-5 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 md:px-7"
+              className="flex min-h-11 w-full items-center gap-3 px-4 py-4 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 sm:px-5 md:px-7"
             >
               <span
                 aria-hidden="true"
@@ -75,7 +75,7 @@ export default function FaqAccordion({
               }`}
             >
               <div className="min-h-0">
-                <p className="max-w-[60ch] px-5 pb-6 ps-12 leading-[1.85] text-ink-soft md:px-7 md:ps-[4.25rem]">
+                <p className="max-w-[60ch] px-4 pb-6 ps-10 leading-[1.85] text-ink-soft sm:px-5 sm:ps-12 md:px-7 md:ps-[4.25rem]">
                   {item.a}
                 </p>
               </div>

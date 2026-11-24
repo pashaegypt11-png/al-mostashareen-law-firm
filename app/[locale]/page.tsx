@@ -86,10 +86,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <main className="flex-1">
       {/* Hero */}
-      <section className="relative pt-16 md:pt-24 pb-20 overflow-hidden">
+      <section className="relative pt-10 pb-12 md:pt-24 md:pb-20 overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-brand-50/40 rounded-b-[60%]"></div>
         <div className="container-xl">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-12 items-center">
             <div className="lg:col-span-7 animate-rise">
               <span className="eyebrow block mb-4">{t.firmName}</span>
               <h1 className="display text-4xl md:text-5xl lg:text-6xl text-brand-900 mb-6 leading-tight">
