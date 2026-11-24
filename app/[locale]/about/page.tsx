@@ -77,7 +77,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 {qualifications.map((qualification) => (
                   <div
                     key={qualification.en}
-                    className="flex items-start gap-4 rounded-xl border border-gold-200 bg-paper p-5 shadow-[0_8px_24px_-18px_rgba(6,58,47,0.55)]"
+                    className="flex items-start gap-4 rounded-xl border border-gold-200 bg-paper p-5 shadow-sm"
                   >
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-200 bg-brand-50">
                       <GraduationCap size={20} strokeWidth={2} className="text-brand-700" aria-hidden="true" />
@@ -107,7 +107,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                   return (
                     <div
                       key={status.en}
-                      className="flex items-start gap-4 rounded-xl border border-gold-200 bg-paper p-5 shadow-[0_8px_24px_-18px_rgba(6,58,47,0.55)]"
+                      className="flex items-start gap-4 rounded-xl border border-gold-200 bg-paper p-5 shadow-sm"
                     >
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-200 bg-brand-50">
                         <StatusIcon size={20} strokeWidth={2} className="text-brand-700" aria-hidden="true" />
@@ -137,7 +137,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 return (
                   <div
                     key={item.en}
-                    className="flex min-h-[132px] items-start gap-4 rounded-xl border border-gold-200 bg-paper p-6 shadow-[0_8px_24px_-18px_rgba(6,58,47,0.55)]"
+                    className="flex min-h-[132px] items-start gap-4 rounded-xl border border-gold-200 bg-paper p-6 shadow-sm"
                   >
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-200 bg-brand-50">
                       <ExperienceIcon size={20} strokeWidth={2} className="text-brand-700" aria-hidden="true" />
@@ -168,7 +168,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               <Phone size={18} strokeWidth={2} aria-hidden="true" />
               {isAr ? "اتصل الآن" : "Call Now"}
             </a>
-            <Link href={`/${locale}/contact`} className="btn border-cream text-cream hover:bg-cream hover:text-brand-900">
+            <Link href={`/${locale}/contact`} className="btn btn-outline-light">
               {isAr ? "حجز استشارة" : "Book Consultation"}
             </Link>
           </div>

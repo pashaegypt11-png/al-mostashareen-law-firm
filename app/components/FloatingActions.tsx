@@ -34,10 +34,9 @@ export default function FloatingActions({ locale }: FloatingActionsProps) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={isAr ? "تواصل معنا عبر واتساب" : "Contact us on WhatsApp"}
-        className={`fixed bottom-6 z-[60] hidden h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-transform hover:scale-105 md:flex ${
+        className={`fixed bottom-6 z-[60] hidden h-14 w-14 items-center justify-center rounded-full bg-[var(--color-whatsapp)] text-white shadow-lg transition-transform hover:scale-105 md:flex ${
           isAr ? "left-6" : "right-6"
         }`}
-        style={{ backgroundColor: "#25D366" }}
       >
         <WhatsAppIcon size={28} />
       </a>
@@ -70,8 +69,7 @@ export default function FloatingActions({ locale }: FloatingActionsProps) {
         <Link
           href={`/${locale}/contact`}
           aria-label={isAr ? "احجز استشارة قانونية" : "Book a legal consultation"}
-          className="flex min-h-16 flex-col items-center justify-center gap-1 text-brand-950"
-          style={{ backgroundColor: "var(--color-gold-300)" }}
+          className="flex min-h-16 flex-col items-center justify-center gap-1 bg-gold-300 text-brand-950"
         >
           <CalendarDays size={21} strokeWidth={2} aria-hidden="true" />
           <span className="text-xs font-bold">{isAr ? "احجز استشارة" : "Book"}</span>

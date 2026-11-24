@@ -139,7 +139,7 @@ function AnimatedStat({
             }}
           />
         </svg>
-        <div className="flex size-[calc(100%-16px)] flex-col items-center justify-center rounded-full border border-gold-300/70 bg-paper text-brand-950 shadow-[0_18px_38px_-24px_rgba(6,58,47,0.55)]">
+        <div className="flex size-[calc(100%-16px)] flex-col items-center justify-center rounded-full border border-gold-300/70 bg-paper text-brand-950 shadow-sm">
           <span className="sr-only">{ariaLabel}</span>
           <span
             aria-hidden="true"
