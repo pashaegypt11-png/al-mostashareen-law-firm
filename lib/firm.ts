@@ -8,7 +8,7 @@ export const firm = {
     en: "AL MOSTASHAREEN LAW FIRM",
   },
   attorney: {
-    ar: "المستشار شيماء ذو الفقار",
+    ar: "المستشارة شيماء ذو الفقار",
     en: "Shaimaa Zulfiqar",
   },
   title: {
@@ -16,7 +16,7 @@ export const firm = {
     en: "Lawyer before the Court of Cassation, Administrative Courts, and Supreme Constitutional Court",
   },
   bio: {
-    ar: "المستشار شيماء ذو الفقار، محامية بالنقض والإدارية والدستورية العليا، تتمتع بخبرة تزيد على 30 عامًا في مجال المحاماة، وتقدم من خلال مكتب المستشارين للمحاماة والاستشارات القانونية خدمات التمثيل القانوني والاستشارات المتخصصة للأفراد والشركات، بمهنية وحرص على حماية الحقوق والمصالح وفقًا لأحكام القانون.",
+    ar: "المستشارة شيماء ذو الفقار، محامية بالنقض والإدارية والدستورية العليا، تتمتع بخبرة تزيد على 30 عامًا في مجال المحاماة، وتقدم من خلال مكتب المستشارين للمحاماة والاستشارات القانونية خدمات التمثيل القانوني والاستشارات المتخصصة للأفراد والشركات، بمهنية وحرص على حماية الحقوق والمصالح وفقًا لأحكام القانون.",
     en: "Ms. Shaimaa Zulfiqar is a lawyer before the Court of Cassation, the Administrative Courts, and the Supreme Constitutional Court. With more than 30 years of experience in the legal profession, she provides — through AL MOSTASHAREEN LAW FIRM — legal representation and specialized consulting services to individuals and companies, with professionalism and a careful commitment to protecting rights and interests in accordance with the law.",
   },
   experienceYears: 30,
