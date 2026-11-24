@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getService, services } from "@/lib/services";
+import FaqAccordion from "@/app/components/FaqAccordion";
+import { faqs } from "@/data/faqs";
 
 export function generateStaticParams() {
   return ["ar", "en"].flatMap((locale) =>
@@ -21,6 +23,7 @@ export default async function ServicePage({
 
   const title = service.title[isAr ? "ar" : "en"];
   const description = service.description[isAr ? "ar" : "en"];
+  const faqItems = faqs[slug]?.[isAr ? "ar" : "en"] ?? [];
 
   return (
     <main className="py-16 md:py-24">
@@ -37,6 +40,29 @@ export default async function ServicePage({
           </span>
           <h1 className="display text-4xl md:text-5xl text-brand-900 mb-6">{title}</h1>
           <p className="text-lg text-ink-soft leading-relaxed mb-10">{description}</p>
+
+          {faqItems.length === 4 && (
+            <section className="mb-10 grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-12" dir={isAr ? "rtl" : "ltr"}>
+              <div>
+                <h2 className="display text-3xl font-bold text-brand-900 mb-3">
+                  {isAr ? "أسئلة شائعة" : "Frequently asked questions"}
+                </h2>
+                <p className="mb-5 text-ink-soft leading-relaxed">
+                  {isAr
+                    ? "إجابات مبسطة لأكثر ما يسأل عنه عملاؤنا"
+                    : "Plain-language answers to what clients ask most"}
+                </p>
+                <Link
+                  href={`/${isAr ? "ar" : "en"}/contact`}
+                  className="font-bold text-gold-700 underline decoration-gold-300 underline-offset-4"
+                >
+                  {isAr ? "حجز استشارة" : "Book a consultation"}
+                </Link>
+              </div>
+              <FaqAccordion items={faqItems} locale={isAr ? "ar" : "en"} />
+            </section>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="tel:+201110666933" className="btn btn-gold">
               {isAr ? "اتصل الآن" : "Call Now"}
