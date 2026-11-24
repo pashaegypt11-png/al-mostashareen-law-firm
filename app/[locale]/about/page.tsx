@@ -1,10 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Briefcase, Building2, FileText, Handshake } from "lucide-react";
 import StatsSection from "@/app/components/StatsSection";
+import { experience, professionalStatus, qualifications } from "@/config/about";
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const isAr = locale === "ar";
+  const qualificationHeading = isAr ? "المؤهلات والعضويات" : "Qualifications & memberships";
+  const professionalStatusHeading = isAr ? "الصفة المهنية" : "Professional standing";
+  const experienceHeading = isAr ? "الخبرة المهنية" : "Professional experience";
+  const experienceIcons = [Briefcase, Building2, Handshake, FileText];
 
   return (
     <main className="flex-1">
@@ -49,27 +55,63 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             <div className="lg:col-span-7">
               <div className="mb-12">
                 <h2 className="text-2xl font-serif font-bold text-brand-900 mb-6">
-                  {isAr ? "المؤهلات المهنية" : "Professional Qualifications"}
+                  {qualificationHeading}
                 </h2>
                 <ul className="space-y-4 text-lg text-ink-soft">
-                  {isAr ? (
-                      <>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>محامية أمام محكمة النقض</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>محامية أمام المحاكم الإدارية</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>محامية أمام المحكمة الدستورية العليا</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>أكثر من 30 عامًا من الخبرة القانونية</span></li>
-                      </>
-                    ) : (
-                        <>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>Lawyer before the Court of Cassation</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>Lawyer before the Administrative Courts</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>Lawyer before the Supreme Constitutional Court</span></li>
-                        <li className="flex items-start gap-4"><span className="text-brand-700 font-bold text-xl">✓</span><span>More than 30 years of legal experience</span></li>
-                      </>
-                    )}
+                  {qualifications.map((qualification) => (
+                    <li key={qualification.en} className="flex items-start gap-4">
+                      <span className="text-brand-700 font-bold text-xl">✓</span>
+                      <span>
+                        {qualification[isAr ? "ar" : "en"]}
+                        {qualification.detail && (
+                          <span className="block text-base text-ink-soft">
+                            {qualification.detail[isAr ? "ar" : "en"]}
+                          </span>
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <h3 className="text-xl font-serif font-bold text-brand-900 mt-10 mb-5">
+                  {professionalStatusHeading}
+                </h3>
+                <ul className="space-y-4 text-lg text-ink-soft">
+                  {professionalStatus.map((status) => (
+                    <li key={status.en} className="flex items-start gap-4">
+                      <span className="text-gold-600 font-bold text-xl">•</span>
+                      <span>{status[isAr ? "ar" : "en"]}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
+
+            {experience.length > 0 && (
+              <div className="lg:col-span-12">
+                <h2 className="text-2xl font-serif font-bold text-brand-900 mb-6">
+                  {experienceHeading}
+                </h2>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {experience.map((item, index) => {
+                    const ExperienceIcon = experienceIcons[index];
+                    return (
+                      <div
+                        key={item.en}
+                        className="bg-paper p-6 rounded-xl border border-gold-200 flex items-start gap-4"
+                      >
+                        <div className="w-10 h-10 shrink-0 rounded-full bg-brand-50 flex items-center justify-center border border-brand-200">
+                          <ExperienceIcon size={20} strokeWidth={2} className="text-brand-700" aria-hidden="true" />
+                        </div>
+                        <p className="text-lg text-ink-soft leading-relaxed">
+                          {item[isAr ? "ar" : "en"]}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             <div className="lg:col-span-5">
               <div className="mt-0 text-center">
