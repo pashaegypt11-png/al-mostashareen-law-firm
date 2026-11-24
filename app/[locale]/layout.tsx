@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import FloatingActions from "@/app/components/FloatingActions";
 
 interface Props {
   children: React.ReactNode;
@@ -24,7 +25,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     : "Lawyer before the Court of Cassation";
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream text-ink" dir={isAr ? "rtl" : "ltr"}>
+    <div className="min-h-screen flex flex-col bg-cream text-ink pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0" dir={isAr ? "rtl" : "ltr"}>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b border-black/10">
         <div className="container-xl flex items-center justify-between py-4 gap-4">
@@ -101,6 +102,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           </div>
         </div>
       </footer>
+      <FloatingActions locale={isAr ? "ar" : "en"} />
     </div>
   );
 }
