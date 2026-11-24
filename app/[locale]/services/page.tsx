@@ -1,5 +1,21 @@
 import Link from "next/link";
 import Image from "next/image";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Briefcase,
+  Building2,
+  FileSignature,
+  Gavel,
+  Home,
+  Landmark,
+  MessageSquareText,
+  Receipt,
+  Scale,
+  ScrollText,
+  ShieldAlert,
+  Users,
+} from "lucide-react";
 import { services, getContent, type Locale } from "@/lib/content";
 
 const serviceImages: Record<string, string> = {
@@ -18,26 +34,28 @@ const serviceImages: Record<string, string> = {
 };
 
 function ServiceIcon({ slug }: { slug: string }) {
-  const paths: Record<string, React.ReactNode> = {
-    scales: <><path d="M12 3v18M5 6h14M7 6l-4 7h8L7 6Zm10 0-4 7h8l-4-7ZM8 21h8" /></>,
-    shield: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /><path d="m9 12 2 2 4-4" /></>,
-    family: <><circle cx="9" cy="8" r="3" /><circle cx="17" cy="10" r="2" /><path d="M3 21v-2a6 6 0 0 1 12 0v2M15 16a4 4 0 0 1 6 3v2" /></>,
-    building: <><path d="M3 21h18M6 21V7l6-4 6 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01M9 17h.01M15 17h.01" /></>,
-    column: <><path d="M3 21h18M5 18h14M6 8h12M4 5h16M8 8v10M12 8v10M16 8v10" /></>,
-    gavel: <><path d="m14 13 7-7-3-3-7 7M5 21l9-9M3 21h10M6 11l7 7" /></>,
-    briefcase: <><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2" /></>,
-    document: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" /><path d="M14 2v6h6M8 13h8M8 17h6" /></>,
-    chart: <><path d="M3 3v18h18M7 16l4-5 3 3 5-7" /></>,
-    percent: <><path d="m19 5-14 14" /><circle cx="7" cy="7" r="2" /><circle cx="17" cy="17" r="2" /></>,
-    home: <><path d="m3 11 9-8 9 8M5 10v10h14V10M9 20v-6h6v6" /></>,
-    handshake: <><path d="m3 12 4-4 4 4-4 4-4-4Zm14-4 4 4-4 4-4-4 4-4ZM7 8l3-3h4l3 3M7 16l5 5 5-5" /></>,
+  const iconProps = {
+    size: 24,
+    strokeWidth: 1.8,
+    "aria-hidden": true,
+  } as const;
+
+  const icons: Record<string, React.ReactNode> = {
+    "civil-litigation": <Scale {...iconProps} />,
+    "criminal-law": <ShieldAlert {...iconProps} />,
+    "family-law": <Users {...iconProps} />,
+    "administrative-litigation": <Landmark {...iconProps} />,
+    "constitutional-court": <ScrollText {...iconProps} />,
+    "cassation-appeals": <Gavel {...iconProps} />,
+    "company-formation": <Building2 {...iconProps} />,
+    contracts: <FileSignature {...iconProps} />,
+    "commercial-litigation": <Briefcase {...iconProps} />,
+    "tax-disputes": <Receipt {...iconProps} />,
+    "real-estate": <Home {...iconProps} />,
+    "legal-consulting": <MessageSquareText {...iconProps} />,
   };
-  const icon = paths[slug] ?? paths.document;
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {icon}
-    </svg>
-  );
+
+  return icons[slug] ?? <Briefcase {...iconProps} />;
 }
 
 export default async function ServicesPage({
@@ -91,11 +109,8 @@ export default async function ServicesPage({
                   <div className="p-8">
                   <div className="relative z-10 flex items-center gap-4 mb-6">
                     <div className="flex h-14 w-14 items-center justify-center rounded-full border border-gold-300 bg-gold-100 text-gold-700 transition-colors duration-300 group-hover:border-gold-400 group-hover:bg-gold-300 group-hover:text-brand-950">
-                      <ServiceIcon slug={service.icon} />
+                      <ServiceIcon slug={service.slug} />
                     </div>
-                    <span className="text-brand-800 font-serif font-bold text-xl">
-                      {sTitle.charAt(0)}
-                    </span>
                   </div>
                   <h3 className="text-xl font-bold text-brand-900 mb-4 group-hover:text-gold-700 transition-colors">
                     {sTitle}
@@ -105,10 +120,12 @@ export default async function ServicesPage({
                   </p>
                   <div className="flex items-center gap-2 mt-auto">
                     <span className="text-sm font-bold text-gold-600 flex items-center gap-2">
-                      {isAr ? "اتصل الآن" : "Call now"}
-                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                      {isAr ? "اعرف المزيد" : "Learn more"}
+                      {isAr ? (
+                        <ArrowLeft size={16} strokeWidth={2} aria-hidden="true" />
+                      ) : (
+                        <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+                      )}
                     </span>
                   </div>
                   </div>
