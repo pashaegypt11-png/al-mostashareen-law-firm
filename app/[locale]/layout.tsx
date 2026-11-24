@@ -94,6 +94,9 @@ export default async function LocaleLayout({ children, params }: Props) {
               <ul className="space-y-3 text-sm text-cream/80">
                 <li><a href="tel:01110666933" className="hover:text-gold-400 transition-colors">01110666933</a></li>
                 <li><a href="mailto:shaimaazulfikar@gmail.com" className="hover:text-gold-400 transition-colors break-all">shaimaazulfikar@gmail.com</a></li>
+                <li>{isAr
+                  ? "مواعيد العمل: يوميًا من 9 صباحًا حتى 6 مساءً — الجمعة إجازة"
+                  : "Working hours: Daily 9:00 AM – 6:00 PM — Closed on Fridays"}</li>
               </ul>
             </div>
           </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
+import { Clock } from "lucide-react";
 import { firm } from "@/lib/content";
 
 const STRINGS = {
@@ -11,6 +12,8 @@ const STRINGS = {
     addressLabel: "العنوان",
     phonesLabel: "أرقام الهاتف",
     emailLabel: "البريد الإلكتروني",
+    workingHoursLabel: "مواعيد العمل: يوميًا من 9 صباحًا حتى 6 مساءً — الجمعة إجازة",
+    outsideHoursReply: "نرد على الرسائل خارج مواعيد العمل في أقرب وقت.",
     formHeading: "نموذج طلب استشارة",
     formSub: "يرجى تعبئة الحقول التالية لإرسال طلب استشارة قانونية.",
     name: "الاسم الكامل",
@@ -52,6 +55,8 @@ const STRINGS = {
     addressLabel: "Address",
     phonesLabel: "Phone numbers",
     emailLabel: "Email",
+    workingHoursLabel: "Working hours: Daily 9:00 AM – 6:00 PM — Closed on Fridays",
+    outsideHoursReply: "We reply to messages outside working hours as soon as possible.",
     formHeading: "Consultation Request Form",
     formSub: "Please fill in the fields below to send a legal consultation request.",
     name: "Full name",
@@ -210,6 +215,16 @@ export default function ContactPage() {
                     <a href={`mailto:${firm.email}`} className="text-brand-800 hover:text-gold-600 text-sm break-all" dir="ltr">
                       {firm.email}
                     </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 shrink-0 rounded-full bg-brand-50 flex items-center justify-center border border-brand-200">
+                    <Clock size={20} strokeWidth={2} className="text-brand-700" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-brand-900 text-sm mb-1">{t.workingHoursLabel}</p>
+                    <p className="text-ink-soft text-sm">{t.outsideHoursReply}</p>
                   </div>
                 </div>
 
