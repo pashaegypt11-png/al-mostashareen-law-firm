@@ -19,7 +19,7 @@ function AnimatedStat({
 }) {
   const elementRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(stat.value);
   const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,16 @@ function AnimatedStat({
 
   useEffect(() => {
     const element = elementRef.current;
-    if (!element) return;
+    if (!element) {
+      setCount(stat.value);
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setCount(stat.value);
+      setVisible(true);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -45,7 +54,7 @@ function AnimatedStat({
     );
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [stat.value]);
 
   useEffect(() => {
     if (!visible) return;
@@ -54,6 +63,13 @@ function AnimatedStat({
       return;
     }
 
+    if (!("requestAnimationFrame" in window)) {
+      setCount(stat.value);
+      return;
+    }
+
+    setCount(0);
+    let frameId = 0;
     const timeout = window.setTimeout(() => {
       const duration = 2000;
       const startedAt = performance.now();
@@ -61,12 +77,17 @@ function AnimatedStat({
         const progress = Math.min((now - startedAt) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
         setCount(Math.round(stat.value * eased));
-        if (progress < 1) window.requestAnimationFrame(tick);
+        if (progress < 1) {
+          frameId = window.requestAnimationFrame(tick);
+        }
       };
-      window.requestAnimationFrame(tick);
+      frameId = window.requestAnimationFrame(tick);
     }, index * 150);
 
-    return () => window.clearTimeout(timeout);
+    return () => {
+      window.clearTimeout(timeout);
+      if (frameId) window.cancelAnimationFrame(frameId);
+    };
   }, [index, reduceMotion, stat.value, visible]);
 
   const content = getContent(locale);

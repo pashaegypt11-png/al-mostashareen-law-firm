@@ -25,7 +25,7 @@ export const stats: readonly StatDefinition[] = [
   },
   {
     key: "cases",
-    value: 10000,
+    value: 7800,
     suffix: "+",
     label: {
       en: "Cases Successfully Managed",
