@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import StatsSection from "@/app/components/StatsSection";
 
 type Lang = "ar" | "en";
 
@@ -19,8 +20,6 @@ interface PageContent {
   services: string;
   callNow: string;
   whatsapp: string;
-  years: string;
-  yearsSub: string;
   why: string;
   whyTitle: string;
   whySub: string;
@@ -43,8 +42,6 @@ const T: Record<Lang, PageContent> = {
     services: "خدماتنا",
     callNow: "اتصل الآن",
     whatsapp: "واتساب",
-    years: "30+ عامًا",
-    yearsSub: "من الخبرة القانونية",
     why: "لماذا تختار مكتبنا؟",
     whyTitle: "شراكة قانونية موثوقة",
     whySub: "مكتب المستشارين للمحاماة والاستشارات القانونية هو شريكك القانوني الموثوق لحماية حقوقك ومصالحك.",
@@ -67,8 +64,6 @@ const T: Record<Lang, PageContent> = {
     services: "Services",
     callNow: "Call Now",
     whatsapp: "WhatsApp",
-    years: "30+ Years",
-    yearsSub: "of legal experience",
     why: "Why choose our firm",
     whyTitle: "A trusted legal partnership",
     whySub: "AL MOSTASHAREEN LAW FIRM is your trusted legal partner for protecting your rights and interests.",
@@ -126,14 +121,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   />
                 </div>
               </div>
-              <div className="mt-8 text-center">
-                <span className="inline-block bg-brand-100 text-brand-800 px-4 py-1 rounded-full text-sm font-bold">{t.years}</span>
-                <p className="mt-2 text-sm text-ink-soft font-serif italic">{t.yearsSub}</p>
-              </div>
             </div>
           </div>
         </div>
       </section>
+
+      <StatsSection locale={isAr ? "ar" : "en"} />
 
       {/* Attorney Intro */}
       <section className="section py-16 md:py-24 bg-paper">

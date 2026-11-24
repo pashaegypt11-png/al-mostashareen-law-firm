@@ -188,6 +188,37 @@
   transform: translateY(-3px);
 }
 
+.service-card {
+  transition: background-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+}
+
+.service-card:focus-visible {
+  outline: 3px solid var(--color-gold-500);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card,
+  .service-card img {
+    transition: none;
+  }
+}
+
+@media (hover: hover) {
+  .service-card:hover {
+    background: var(--color-brand-900);
+  }
+  .service-card:hover h3,
+  .service-card:hover p,
+  .service-card:hover .text-ink-soft {
+    color: var(--color-cream);
+  }
+  .service-card:hover .text-brand-800,
+  .service-card:hover .text-gold-600 {
+    color: var(--color-gold-300);
+  }
+}
+
 /* ---------- Forms ---------- */
 .label {
   display: block;

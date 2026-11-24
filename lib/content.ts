@@ -191,6 +191,9 @@ export function getService(slug: string): Service | undefined {
 
 export const ui = {
   ar: {
+    statsExperienceLabel: "سنوات من الخبرة القانونية",
+    statsCasesLabel: "قضية تمت إدارتها بنجاح",
+    statsConfidentialityLabel: "سرية تامة للبيانات",
     home: "الصفحة الرئيسية",
     contact: "تواصل معنا",
     homeTitle: "الدفاع القانوني الموثوق بخبرة تزيد على 30 عامًا",
@@ -251,6 +254,9 @@ export const ui = {
     followUs: "تابعنا",
   },
   en: {
+    statsExperienceLabel: "Years of Legal Experience",
+    statsCasesLabel: "Cases Successfully Managed",
+    statsConfidentialityLabel: "Absolute Data Confidentiality",
     home: "Home",
     contact: "Contact",
     homeTitle: "Trusted legal defense with more than 30 years of experience",
