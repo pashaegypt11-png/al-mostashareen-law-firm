@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Phone } from "lucide-react";
 import StatsSection from "@/app/components/StatsSection";
 
 type Lang = "ar" | "en";
@@ -96,6 +97,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </h1>
               <p className="text-lg md:text-xl text-ink-soft mb-10 max-w-lg prose-legal">{t.sub}</p>
               <div className="flex flex-wrap gap-4">
+                <a href="tel:+201110666933" className="btn btn-gold">
+                  <Phone size={18} strokeWidth={2} aria-hidden="true" />
+                  {t.callNow}
+                </a>
                 <Link href={`/${locale}/about`} className="btn btn-primary">{t.about}</Link>
                 <Link href={`/${locale}/services`} className="btn btn-outline">{t.services}</Link>
               </div>
@@ -193,7 +198,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">{t.ctaTitle}</h2>
               <p className="text-white/90 mb-8 max-w-lg">{t.ctaSub}</p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <a href={`tel:+201110666933`} className="btn btn-gold">{t.callNow}</a>
+                <a href={`tel:+201110666933`} className="btn btn-gold">
+                  <Phone size={18} strokeWidth={2} aria-hidden="true" />
+                  {t.callNow}
+                </a>
                 <Link href={`/${locale}/contact`} className="btn btn-outline brand">{isAr ? "حجز استشارة" : "Book Consultation"}</Link>
               </div>
             </div>

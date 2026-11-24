@@ -26,7 +26,7 @@
   --color-ink: #14181a;
   --color-ink-soft: #3f4744;
 
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-cairo);
   --font-serif: var(--font-playfair);
   --font-arabic: var(--font-amiri);
 }
@@ -102,6 +102,7 @@
 }
 
 [lang="ar"] .display,
+[dir="rtl"] .display,
 .font-arabic {
   font-family: var(--font-arabic);
   line-height: 1.35;
@@ -110,6 +111,12 @@
 
 .font-serif {
   font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+}
+
+[dir="rtl"] .font-serif {
+  font-family: var(--font-arabic), "Arial", sans-serif;
+  line-height: 1.35;
+  letter-spacing: 0;
 }
 
 .eyebrow {

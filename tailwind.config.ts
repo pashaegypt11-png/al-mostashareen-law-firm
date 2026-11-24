@@ -26,7 +26,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
+        sans: ["var(--font-cairo)", "sans-serif"],
         serif: ["var(--font-playfair)", "serif"],
         arabic: ["var(--font-amiri)", "serif"],
       },

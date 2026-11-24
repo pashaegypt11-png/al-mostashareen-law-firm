@@ -39,7 +39,7 @@ export default function FloatingActions({ locale }: FloatingActionsProps) {
         }`}
         style={{ backgroundColor: "#25D366" }}
       >
-        <WhatsAppIcon size={30} />
+        <WhatsAppIcon size={28} />
       </a>
 
       <nav

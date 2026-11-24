@@ -48,7 +48,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-6 font-serif text-sm font-medium">
+          <nav className="hidden lg:flex items-center gap-6 font-sans text-sm font-medium">
             <Link href={`/${locale}`} className="text-brand-900 hover:text-gold-600 transition-colors">{nav.home}</Link>
             <Link href={`/${locale}/about`} className="text-ink-soft hover:text-brand-800 transition-colors">{nav.about}</Link>
             <Link href={`/${locale}/services`} className="text-ink-soft hover:text-brand-800 transition-colors">{nav.services}</Link>

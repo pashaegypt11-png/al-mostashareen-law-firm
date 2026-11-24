@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Phone } from "lucide-react";
 import { getService, services } from "@/lib/services";
 import FaqAccordion from "@/app/components/FaqAccordion";
 import { faqs } from "@/data/faqs";
@@ -65,6 +66,7 @@ export default async function ServicePage({
 
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="tel:+201110666933" className="btn btn-gold">
+              <Phone size={18} strokeWidth={2} aria-hidden="true" />
               {isAr ? "اتصل الآن" : "Call Now"}
             </a>
             <Link href={`/${isAr ? "ar" : "en"}/contact`} className="btn btn-outline">

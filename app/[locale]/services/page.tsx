@@ -10,6 +10,7 @@ import {
   Home,
   Landmark,
   MessageSquareText,
+  Phone,
   Receipt,
   Scale,
   ScrollText,
@@ -179,6 +180,7 @@ export default async function ServicesPage({
                 href={`tel:+201110666933`}
                 className="btn btn-gold"
               >
+                <Phone size={18} strokeWidth={2} aria-hidden="true" />
                 {isAr ? "اتصل الآن" : "Call Now"}
               </a>
               <Link href={`/${locale}/contact`} className="btn btn-outline brand">

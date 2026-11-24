@@ -4,6 +4,7 @@ import {
   BadgeCheck,
   Briefcase,
   Building2,
+  Phone,
   FileText,
   GraduationCap,
   Handshake,
@@ -164,6 +165,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a href="tel:+201110666933" className="btn btn-gold">
+              <Phone size={18} strokeWidth={2} aria-hidden="true" />
               {isAr ? "اتصل الآن" : "Call Now"}
             </a>
             <Link href={`/${locale}/contact`} className="btn border-cream text-cream hover:bg-cream hover:text-brand-900">
