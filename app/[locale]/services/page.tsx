@@ -17,6 +17,7 @@ import {
   Users,
 } from "lucide-react";
 import { services, getContent, type Locale } from "@/lib/content";
+import { serviceGroups } from "@/config/serviceGroups";
 
 const serviceImages: Record<string, string> = {
   "civil-litigation": "/services/civil-litigation.jpg",
@@ -85,54 +86,80 @@ export default async function ServicesPage({
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => {
-              const sTitle = service.title[locale as Locale];
-              const sDesc = service.description[locale as Locale];
-              return (
-                <Link
-                  key={service.slug}
-                  href={`/${locale}/services/${service.slug}`}
-                  className="card card-hover service-card group relative overflow-hidden"
-                  aria-label={sTitle}
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={serviceImages[service.slug]}
-                      alt={sTitle}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    />
-                    <div className="absolute inset-0 bg-brand-950/0 transition-colors duration-300 group-hover:bg-brand-950/20" aria-hidden="true"></div>
-                  </div>
-                  <div className="p-8">
-                  <div className="relative z-10 flex items-center gap-4 mb-6">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-gold-300 bg-gold-100 text-gold-700 transition-colors duration-300 group-hover:border-gold-400 group-hover:bg-gold-300 group-hover:text-brand-950">
-                      <ServiceIcon slug={service.slug} />
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold text-brand-900 mb-4 group-hover:text-gold-700 transition-colors">
-                    {sTitle}
-                  </h3>
-                  <p className="text-ink-soft leading-relaxed mb-8 flex-1">
-                    {sDesc}
+          {serviceGroups.map((group, groupIndex) => {
+            const groupServices = group.slugs
+              .map((slug) => services.find((service) => service.slug === slug))
+              .filter((service) => service !== undefined);
+
+            return (
+              <section key={group.title.en}>
+                {groupIndex > 0 && (
+                  <div className="mb-12 h-px bg-gold-300" aria-hidden="true"></div>
+                )}
+                <div className="mb-8">
+                  <h2 className="display text-3xl md:text-4xl text-brand-900 mb-2">
+                    {group.title[locale as Locale]}
+                  </h2>
+                  <p className="text-ink-soft">
+                    {group.subtitle[locale as Locale]}
                   </p>
-                  <div className="flex items-center gap-2 mt-auto">
-                    <span className="text-sm font-bold text-gold-600 flex items-center gap-2">
-                      {isAr ? "اعرف المزيد" : "Learn more"}
-                      {isAr ? (
-                        <ArrowLeft size={16} strokeWidth={2} aria-hidden="true" />
-                      ) : (
-                        <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
-                      )}
-                    </span>
-                  </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+                </div>
+
+                <div className={
+                  groupServices.length === 1
+                    ? "grid grid-cols-1 md:max-w-[calc((100%-2rem)/2)] md:mx-auto"
+                    : "grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                }>
+                  {groupServices.map((service) => {
+                    const sTitle = service.title[locale as Locale];
+                    const sDesc = service.description[locale as Locale];
+                    return (
+                      <Link
+                        key={service.slug}
+                        href={`/${locale}/services/${service.slug}`}
+                        className="card card-hover service-card group relative overflow-hidden"
+                        aria-label={sTitle}
+                      >
+                        <div className="relative aspect-[4/3] overflow-hidden">
+                          <Image
+                            src={serviceImages[service.slug]}
+                            alt={sTitle}
+                            fill
+                            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                          <div className="absolute inset-0 bg-brand-950/0 transition-colors duration-300 group-hover:bg-brand-950/20" aria-hidden="true"></div>
+                        </div>
+                        <div className="p-8">
+                          <div className="relative z-10 flex items-center gap-4 mb-6">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-gold-300 bg-gold-100 text-gold-700 transition-colors duration-300 group-hover:border-gold-400 group-hover:bg-gold-300 group-hover:text-brand-950">
+                              <ServiceIcon slug={service.slug} />
+                            </div>
+                          </div>
+                          <h3 className="text-xl font-bold text-brand-900 mb-4 group-hover:text-gold-700 transition-colors">
+                            {sTitle}
+                          </h3>
+                          <p className="text-ink-soft leading-relaxed mb-8 flex-1">
+                            {sDesc}
+                          </p>
+                          <div className="flex items-center gap-2 mt-auto">
+                            <span className="text-sm font-bold text-gold-600 flex items-center gap-2">
+                              {isAr ? "اعرف المزيد" : "Learn more"}
+                              {isAr ? (
+                                <ArrowLeft size={16} strokeWidth={2} aria-hidden="true" />
+                              ) : (
+                                <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
         </div>
       </section>
 
